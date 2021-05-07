@@ -1,0 +1,20 @@
+{
+  "name": "section2",
+  "version": "1.0.0",
+  "description": "section 2 of udemy node course",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Adam-Harte/node-udemy-course.git"
+  },
+  "author": "Adam Harte",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Adam-Harte/node-udemy-course/issues"
+  },
+  "homepage": "https://github.com/Adam-Harte/node-udemy-course#readme"
+}
