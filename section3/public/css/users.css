@@ -1,0 +1,13 @@
+h1 {
+	font-size: 30px;
+	color: blue;
+}
+
+ul {
+	border: 1px solid black;
+}
+
+li {
+	font-size: 18px;
+	color: green;
+}
