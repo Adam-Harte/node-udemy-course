@@ -11,7 +11,7 @@ router.get('/', shopController.getIndex);
 router.get('/products', shopController.getProducts);
 
 // Always add dynamic routes at the bottom below any specific routes with the same path
-router.get('/products/:productId')
+router.get('/products/:productId', shopController.getProduct);
 
 router.get('/cart', shopController.getCart);
 

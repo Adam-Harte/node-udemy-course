@@ -12,7 +12,13 @@ exports.getProducts = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
-  console.log(prodId);
+  Product.findById(prodId, product => {
+    res.render('shop/product-detail', {
+      pageTitle: product.title,
+      product: product,
+      path: '/products'
+    });
+  });
   res.redirect('/');
 }
 
