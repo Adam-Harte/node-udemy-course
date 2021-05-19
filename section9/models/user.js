@@ -78,6 +78,40 @@ class User {
     );
   }
 
+  addOrder() {
+    const db = getDb();
+    this.getCart().then(products => {
+      const order = {
+        items: products,
+        user: {
+          _id: new mongodb.ObjectId(this._id),
+          name: this.name,
+          email: this.email
+        }
+      }
+
+      return db.collection('order').insertOne(order)
+    })
+      .then(result => {
+        this.cart = { items: [] };
+        return db.collection('users').updateOne(
+          {
+            id: new mongodb.ObjectId(this._id)
+          },
+          {
+            $set: { cart: { items: [] } }
+          }
+        );
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  getOrders() {
+
+  }
+
   static findById(userId) {
     const db = getDb();
     return db
