@@ -3,6 +3,7 @@ const path = require('path');
 
 const Product = require('../models/product');
 const Order = require('../models/order');
+const { HostNotFoundError } = require('sequelize');
 
 exports.getProducts = (req, res, next) => {
   Product.find()
@@ -152,16 +153,26 @@ exports.getOrders = (req, res, next) => {
 
 exports.getInvoice = (req, res, next) => {
   const orderId = req.params.orderId;
-  const invoiceName = 'invoice-' + orderId + '.pdf';
-  const invoicePath = path.join('data', 'invoices', invoiceName);
+  Order.findById(orderId)
+    .then(order => {
+      if (!order) {
+        return next(new Error('No order found.'));
+      }
+      if (order.user.userId.toString() !== req.user._id.toString()) {
+        return next(new Error('Unauthorized'));
+      }
+      const invoiceName = 'invoice-' + orderId + '.pdf';
+      const invoicePath = path.join('data', 'invoices', invoiceName);
 
-  fs.readFile(invoicePath, (err, data) => {
-    if (err) {
-      next(err);
-    }
+      fs.readFile(invoicePath, (err, data) => {
+        if (err) {
+          next(err);
+        }
 
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'inline; filename="' + invoiceName + '"');
-    res.send(data);
-  });
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'inline; filename="' + invoiceName + '"');
+        res.send(data);
+      });
+    })
+    .catch(err => next(err))
 };
